@@ -1,6 +1,11 @@
-# Tracking daily focus with the [Forest](https://www.forestapp.cc/) app
+<p align="center">
+<img 
+    src=".github/images/logo.png" 
+    width="336" border="0" alt="TRACKF">
+<br>
+</p>
 
-So you track how much you focus, perhaps for work or your studies. Have you ever thought, "I need to focus X hours per day"? But how do you know if you're meeting this target? Enter `trackf`!
+So you track with [Forest](https://www.forestapp.cc/) how much you focus, perhaps for work or your studies. Have you ever thought, "I need to focus X hours per day"? But how do you know if you're meeting this target? Enter `trackf`!
 
 All you need is a CSV file exported from your [Forest](https://www.forestapp.cc/) app.
 
