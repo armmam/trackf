@@ -30,16 +30,24 @@ func readSessions(name string) ([]*Session, error) {
 }
 
 func updateTrackPeriod(sessions []*Session, start, finish string) {
+	// First assume we track by the whole time period
+	trackStart = sessions[0].StartTime.TruncateDay().Time
+	trackFinish = sessions[len(sessions)-1].EndTime.TruncateDay().Add(24 * time.Hour)
+
+	// Then apply the flags wherever necessary
 	inputStart, errStart := time.Parse(trackPeriodLayout, start)
 	inputFinish, errFinish := time.Parse(trackPeriodLayout, finish)
 
-	if errStart != nil && errFinish != nil || !inputStart.Before(inputFinish) {
-		// Invalid input, use the whole period
-		trackStart = sessions[0].StartTime.TruncateDay().Time
-		trackFinish = sessions[len(sessions)-1].EndTime.TruncateDay().Add(24 * time.Hour)
-		return
+	// If both flags are valid, apply them both
+	if errStart == nil && errFinish == nil && inputFinish.Before(inputFinish) {
+		trackStart = inputStart
+		trackFinish = inputFinish
 	}
-
-	trackStart = inputStart
-	trackFinish = inputFinish
+	// If only one of the flags is valid, apply the valid one
+	if errStart == nil && errFinish != nil && inputFinish.Before(trackFinish) {
+		trackStart = inputStart
+	}
+	if errStart != nil && errFinish == nil && trackStart.Before(inputFinish) {
+		trackFinish = inputFinish
+	}
 }
